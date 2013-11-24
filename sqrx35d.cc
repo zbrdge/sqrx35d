@@ -80,4 +80,5 @@ int main() {
     for (auto a : v2) {
         cout << "v2 at " << getposition(v2, 10, a) << " is " << a << '\n';
     }
-}
+}   
+
