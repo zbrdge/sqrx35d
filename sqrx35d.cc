@@ -26,6 +26,9 @@
 // so of "The C++ Programming Language," by Bjarne Stroustrup.
 // Which is funny because I never wanted to learn C++. In fact,
 // I would say I come from the "C++ is stupid" school of thought.
+// (I should add that one factor in this might have been the
+//  inclusion in my High School curriculum of the book,
+//  "C++ for You++" which, due in part to the title, I never read).
 
 // But lately, I've realized that's just the attitude of lazy people
 // toward most languages they don't want to have to learn. Which is
