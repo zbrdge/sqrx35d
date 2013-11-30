@@ -18,70 +18,44 @@
 // has used the term CLOG in this manner before, I am unaware.
 // Until learning otherwise, I claim it as my own invention.
 
-    // day 0
+    // day 1
     // ---
-//
-//
-// You can see below that today I'm working through chapter one or
-// so of "The C++ Programming Language," by Bjarne Stroustrup.
-// Which is funny because I never wanted to learn C++. In fact,
-// I would say I come from the "C++ is stupid" school of thought.
-// (I should add that one factor in this might have been the
-//  inclusion in my High School curriculum of the book,
-//  "C++ for You++" which, due in part to the title, I never read).
 
-// But lately, I've realized that's just the attitude of lazy people
-// toward most languages they don't want to have to learn. Which is
-// actually understandable and I agree that many languages should
-// be freely discarded, perhaps especially languages that allow
-// us to so freely shoot ourselves in the feet.
+// Just wanted to try a little 'text' file parsing.
+// In keeping with my premise of having every entry in
+// this 'CLOG' self contained, here's the plan:
+//   1) Use libc (OS X) system(3) to create the config file
+//   2) parse it a la this answer on stack overflow: http://stackoverflow.com/a/2881987
 
-// But there's a large body of C++ code that is worth understanding,
-// and C++ has some interesting high level constructs, and indeed
-// one could probably come up with a very long list of pros and cons here.
-// Or perhaps just a long list of cons.
-
-// Strangely enough though, one of the main reasons I like going through
-// this book is the author's writing style -- I truly enjoy
-// reading Stroustrup! Maybe I'll change my mind by the end of the
-// book, but so far, I have to say he's a great author.
-
+#include <fstream>
+#include <sstream>
 #include <iostream>
-#include <algorithm> // http://stackoverflow.com/a/7875721
+#include <stdlib.h>
 using namespace std;
 
-double square(double x) {
-        return x*x;    
-}
-
-int getposition(int *array, size_t size, char c) {
-  // Note that here I use two spaces, and in other
-  // places I may use 3, four, 5 or even a tab.
-  // Also, I might place a brace on the same line as a function name
-  // or on the following line. Free form slop is the name of
-  // the game on this CLOG today. If you don't like it, get your own!
-
-  int* end = array+size;
-  int* match = std::find(array, end, c);
-  return (end == match)? -1 : (match-array);
-
-}
-
 int main() {
-    int v1[10] = {0,1,2,3,4,5,6,7,8,9};
-    int v2[]   = {'a','b','c','d','e','f','g','h','i','j'};
+    const char* create_conf = "/bin/echo foo=1,2,3,4 > config && /bin/echo bar=0 >> config";
+    const char* delete_conf = "/bin/rm config";
+    system(create_conf);
 
-    //std::cout << "Hello, World!\n";
-    cout << "Hello, World!\n";
+    ifstream f( "config" );
+    string l;
 
-    for (auto i=0; i!=10; ++i) {
-        char *a = (char *)&v2[i];
-        cout << "v2 at " << i << " is " << *a << '\n';
+    while( getline( f,l ) ) {
+        istringstream i( l );
+        string r;
+        if( getline( i, r, '=' ) ) {
+            if ( r == "foo" ) {
+                string t;
+                while( getline( i, t, ',' ) ) {
+                    cout << "Got 'token': " << t << endl;
+                }
+            }
+            if ( r == "bar" ) {
+                cout << "Can I get this right in one try?" << endl;
+            }
+        }
     }
 
-    // Similar to the previous loop, except nice and slow;, except nice and slow;
-    for (auto a : v2) {
-        cout << "v2 at " << getposition(v2, 10, a) << " is " << a << '\n';
-    }
-}   
-
+    system(delete_conf);
+}
